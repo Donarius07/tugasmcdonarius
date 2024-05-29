@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DetailAktivity">
+
+    <TextView
+        android:id="@+id/tvNama"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="48dp"
+        android:gravity="center"
+        android:text="Ikigaki"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvHarga"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="Rp 150.000"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvNama" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvHarga">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/ivGambar"
+                android:layout_width="match_parent"
+                android:layout_height="243dp"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/img_10" />
+
+            <TextView
+                android:id="@+id/tvDeskripsi"
+                android:layout_width="match_parent"
+                android:layout_height="311dp"
+                android:paddingHorizontal="20sp"
+                android:text="@string/tahukah_anda_menurut_organisasi_kesehatan_dunia_who_negara_jepang_memiliki_tingkat_harapan_hidup_tertinggi_dibandingkan_negara_lain_bahkan_banyak_penduduk_jepang_yang_berusia_100_tahun_atau_lebih_yang_sering_kita_sebut_juga_centenarian_dan_supercentenarian_apakah_anda_tahu_apa_itu_centenarian_centenarian_adalah_seseorang_yang_hidup_berumur_100_tahun_sedangkan_supercentenarian_adalah_orang_yang_hidup_hingga_usia_110_atau_lebih_hal_ini_terbukti_dari_piramida_penduduk_jepang_jepang_memiliki_piramida_kontruktif_dimana_dalam_piramida_kontruktif_penduduk_yang_berada_dalam_kelompok_muda_berjumlah_sedikit_dengan_tingkat_kelahiran_yang_menurun_dan_angka_kematian_yang_rendah"
+                android:textAlignment="textStart"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

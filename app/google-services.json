@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "855236087754",
+    "project_id": "tugasmcdonarius-27ae4",
+    "storage_bucket": "tugasmcdonarius-27ae4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:855236087754:android:59e900571796fccfb2c933",
+        "android_client_info": {
+          "package_name": "com.example.tugasmcdonarius"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQpxDivYV3u_ZR1MoXOAF32Vbw7tY4GVU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:855236087754:android:b5273412d5a21660b2c933",
+        "android_client_info": {
+          "package_name": "com.tugasmcdonarius"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQpxDivYV3u_ZR1MoXOAF32Vbw7tY4GVU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
