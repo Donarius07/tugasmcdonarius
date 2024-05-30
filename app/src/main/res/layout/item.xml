@@ -13,7 +13,7 @@
         android:padding="10dp">
 
         <ImageView
-            android:id="@+id/image"
+            android:id="@+id/vwGambar"
             android:layout_width="123dp"
             android:layout_height="115dp"
             android:layout_marginEnd="16dp"
@@ -25,12 +25,12 @@
             android:id="@+id/Buku"
             android:layout_width="242dp"
             android:layout_height="54dp"
-            android:layout_alignTop="@id/image"
+            android:layout_alignTop="@id/vwGambar"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="16dp"
             android:layout_marginTop="0dp"
             android:layout_marginEnd="0dp"
-            android:layout_toEndOf="@id/image"
+            android:layout_toEndOf="@id/vwGambar"
             android:text="@string/nama_buku"
             android:textColor="@color/black"
             android:textSize="20sp"
@@ -45,7 +45,7 @@
             android:layout_marginStart="26dp"
             android:layout_marginTop="7dp"
             android:layout_marginEnd="0dp"
-            android:layout_toEndOf="@id/image"
+            android:layout_toEndOf="@id/vwGambar"
             android:text="@string/harga_buku"
             android:textColor="@color/black"
             android:textSize="16sp" />

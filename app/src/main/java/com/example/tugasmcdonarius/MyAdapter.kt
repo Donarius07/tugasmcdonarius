@@ -1,5 +1,7 @@
 package com.example.tugasmcdonarius
 
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,40 +9,40 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class MyAdapter (private val ItemData: ArrayList<ItemData>):RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
-    private lateinit var mListener: onItemClickListener
+class MyAdapter( var mContext: Context,  var bukuList: List<image>) :
+    RecyclerView.Adapter<MyAdapter.ListViewHolder>() {
 
-    interface onItemClickListener {
-        fun onItemClick(position: Int)
+    inner class ListViewHolder(var v: View) : RecyclerView.ViewHolder(v) {
+        val gambar = v.findViewById<ImageView>(R.id.vwGambar)
+        val nama = v.findViewById<TextView>(R.id.Buku)
+        val harga= v.findViewById<TextView>(R.id.Harga)
     }
 
-    fun setOnItemClickListener(listener: onItemClickListener) {
-        mListener = listener
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
+        var inflater = LayoutInflater.from(parent.context)
+        var v = inflater.inflate(R.layout.item, parent, false)
+        return ListViewHolder(v)
     }
+    override fun getItemCount(): Int = bukuList.size
 
-    class MyViewHolder(ItemData: View, listener: onItemClickListener) : RecyclerView.ViewHolder(ItemData) {
-        val gambar: ImageView = ItemData.findViewById(R.id.image)
-        val nama: TextView = ItemData.findViewById(R.id.Buku)
-        val harga: TextView = ItemData.findViewById(R.id.Harga)
+    override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
+        var newList = bukuList[position]
+        holder.nama.text = newList.nama
+        holder.harga.text = newList.harga
+        holder.gambar.loadImage(newList.gambar)
+        holder.v.setOnClickListener {
 
-        init {
-            itemView.setOnClickListener {
-                listener.onItemClick(adapterPosition)
-            }
+            val nama = newList.nama
+            val harga = newList.harga
+            val deskripsi = newList.deskripsi
+            val gambar = newList.gambar
+
+            val mIntent = Intent(mContext, DetailAktivity::class.java)
+                mIntent.putExtra("NAMA", nama)
+            mIntent.putExtra("HARGA", harga)
+                mIntent.putExtra("DESKRIPSI", deskripsi)
+                mIntent.putExtra("GAMBAR", gambar)
+                mContext.startActivity(mIntent)
         }
     }
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-            val ItemData = LayoutInflater.from(parent.context).inflate(R.layout.item, parent, false)
-            return MyViewHolder(ItemData, mListener)
-        }
-
-        override fun getItemCount(): Int = ItemData.size
-
-        override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-            val currentItem = ItemData[position]
-            holder.gambar.setImageResource(currentItem.gambar)
-            holder.nama.text = currentItem.nama
-            holder.harga.text = currentItem.harga
-        }
-    }
-
+}

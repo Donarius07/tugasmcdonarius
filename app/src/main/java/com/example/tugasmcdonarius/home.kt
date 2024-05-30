@@ -1,82 +1,80 @@
 package com.example.tugasmcdonarius
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.tugasmcdonarius.databinding.HomeBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
+import com.google.firebase.storage.FirebaseStorage
 
 class home : AppCompatActivity() {
-    private lateinit var bukuRecyclerView: RecyclerView
-    private lateinit var nama : Array<String>
-    private lateinit var harga : Array<String>
-    private lateinit var gambar : Array<Int>
-    private lateinit var deskripsi : Array<String>
-    private lateinit var listBuku:ArrayList<ItemData>
+
+    private lateinit var bukuListRecyclerView: RecyclerView
+    private lateinit var bukuList: MutableList<image>
+    private lateinit var bukuListAdapter: MyAdapter
+    private lateinit var binding: HomeBinding
+    private var mStorage: FirebaseStorage? = null
+    private var mDatabaseRef: DatabaseReference? = null
+    private var mDBListener: ValueEventListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
+        binding = HomeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-       gambar = arrayOf(
-           R.drawable.img_10,
-           R.drawable.img_11,
-           R.drawable.img_12,
-           R.drawable.img_13,
-           R.drawable.img_14,
-           R.drawable.img_15,
-           R.drawable.img_16,
-           R.drawable.img_17,
-           R.drawable.img_18,
-           R.drawable.img_19,
-       )
+        bukuListRecyclerView = findViewById(R.id.movieLists)
+        bukuListRecyclerView.setHasFixedSize(true)
+        bukuListRecyclerView.layoutManager = LinearLayoutManager(this@home)
+        binding.progres.visibility = View.VISIBLE
+        bukuList = ArrayList()
+        bukuListAdapter = MyAdapter(this@home, bukuList)
+        bukuListRecyclerView.adapter = bukuListAdapter
+        mStorage = FirebaseStorage.getInstance()
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("bukuList")
 
-        nama = arrayOf(
-            "Ikigai","George Orwell 1984","Hidup AntiGalau","Cerita Rakyat","Tak Pernah","Slow Down","Bicara Itu Seni",
-            "Master Your Pain","Anak Islam","Spektrum","Perempuan dititik Nol","Milk and Honey","Habbits","Intligence",
-            "Atomic habbits","Agama Saintifik","Dongeng","Money","The Power","Respect Myself"
-        )
-        harga = arrayOf(
-            "Rp 150.000", "Rp 150.000", "Rp 150.000", "Rp 150.000", "Rp 150.000", "Rp 150.000", "Rp 150.000", "Rp 150.000",
-            "Rp 150.000", "Rp 150.000", "Rp 150.000", "Rp 150.000", "Rp 150.000", "Rp 150.000", "Rp 150.000", "Rp 150.000",
-            "Rp 150.000", "Rp 150.000", "Rp 150.000", "Rp 150.000", "Rp 150.000",
-        )
-        deskripsi = arrayOf(
-            getString(R.string.Ikigai),
-            getString(R.string.George_Orwell_1984),
-            getString(R.string.Hidup_AntiGalau),
-            getString(R.string.Cerita_Rakyat),
-            getString(R.string.Tak_Pernah),
-            getString(R.string.Slow_Down),
-            getString(R.string.Bicara_Itu_Seni),
-            getString(R.string.Master_Your_Pain),
-            getString(R.string.Anak_Islam),
-            getString(R.string.Spektrum),
-        )
+        mDBListener = mDatabaseRef!!.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(this@home, error.message, Toast.LENGTH_SHORT).show()
+                binding.progres.visibility = View.INVISIBLE
+            }
 
-        bukuRecyclerView=findViewById(R.id.movieLists)
-        bukuRecyclerView.layoutManager=LinearLayoutManager(this)
-
-        listBuku= arrayListOf<ItemData>()
-        getDataUser()
-    }
-    private fun getDataUser(){
-        for (i in gambar.indices){
-            val databuku =ItemData(gambar[i],nama[i],harga[i])
-            listBuku.add(databuku)
-        }
-        var adapter= MyAdapter(listBuku)
-        bukuRecyclerView.adapter=adapter
-        adapter.setOnItemClickListener(object : MyAdapter.onItemClickListener {
-            override fun onItemClick(position:Int){
-                intent= Intent(this@home,DetailAktivity::class.java)
-                intent.putExtra("idgambar",listBuku[position].gambar)
-                intent.putExtra("idnama",listBuku[position].nama)
-                intent.putExtra("idharga",listBuku[position].harga)
-                intent.putExtra("iddeskripsi",deskripsi[position])
-
-                startActivity(intent)
+            @SuppressLint("NotifyDataSetChanged")
+            override fun onDataChange(snapshot: DataSnapshot) {
+                bukuList.clear()
+                for (teacherSnapshot in snapshot.children) {
+                    val upload = teacherSnapshot.getValue(image::class.java)
+                    upload!!.key = teacherSnapshot.key
+                    bukuList.add(upload)
+                }
+                bukuListAdapter.notifyDataSetChanged()
+                binding.progres.visibility = View.GONE
             }
         })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.mymenu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.logout -> {
+                FirebaseAuth.getInstance().signOut()
+                Intent(this, login::class.java).also {
+                    it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(it)
+                }
+            }
+        }
+        return true
     }
 }

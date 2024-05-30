@@ -1,29 +1,28 @@
 package com.example.tugasmcdonarius
 
 import android.os.Bundle
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.tugasmcdonarius.databinding.DetailBinding
+import com.squareup.picasso.Picasso
 
 class DetailAktivity : AppCompatActivity() {
+
+    private lateinit var binding: DetailBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail_aktivity)
+        binding = DetailBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val gambar : ImageView=findViewById(R.id.ivGambar)
-        val nama : TextView =findViewById(R.id.tvNama)
-        val harga : TextView=findViewById(R.id.tvHarga)
-        val deskripsi : TextView=findViewById(R.id.tvDeskripsi)
+        val intent = intent
+        val nama = intent.getStringExtra("NAMA")
+        val deskripsi = intent.getStringExtra("DESKRIPSI")
+        val gambar = intent.getStringExtra("GAMBAR")
+        val harga = intent.getStringExtra("HARGA")
 
-        val bundle:Bundle?=intent.extras
-        val bNama = bundle!!.getString("idnama")
-        val bGambar= bundle.getInt("idgambar")
-        val bHarga= bundle.getString("idharga")
-        val bDeskripsi=bundle.getString("iddeskripsi")
-
-        gambar.setImageResource(bGambar)
-        nama.text = bNama
-        harga.text =bHarga
-        deskripsi.text =bDeskripsi
+        binding.tvNama.text = nama
+        binding.tvHarga.text = harga
+        binding.tvDeskripsi.text = deskripsi
+        Picasso.get().load(gambar).into(binding.ivGambar)
     }
 }
